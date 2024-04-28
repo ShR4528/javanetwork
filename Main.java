@@ -1,14 +1,16 @@
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+
 
 public class Main {
     
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException {
         
-       InetAddress oscalyWebsite = InetAddress.getByName("www.ocsaly.com");
-       System.out.println("Host Address: " + oscalyWebsite.getHostAddress());
-       System.out.println("Host Name: " + oscalyWebsite.getHostName());
-       System.out.println("Canonical Host Name: " + oscalyWebsite.getCanonicalHostName());
+       InetAddress oscaly = InetAddress.getByName("www.ocsaly.com");
+       System.out.println("Host Address: " + oscaly.getHostAddress());
+       System.out.println("Host Name: " + oscaly.getHostName());
+       System.out.println("Canonical Host Name: " + oscaly.getCanonicalHostName());
+       oscaly.isReachable(10000); // 10 seconds timeout
         
 
      
