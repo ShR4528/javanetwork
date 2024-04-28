@@ -1,18 +1,23 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.InetAddress;
-
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class Main {
-    
     public static void main(String[] args) throws IOException {
-        
-       InetAddress oscaly = InetAddress.getByName("www.ocsaly.com");
-       System.out.println("Host Address: " + oscaly.getHostAddress());
-       System.out.println("Host Name: " + oscaly.getHostName());
-       System.out.println("Canonical Host Name: " + oscaly.getCanonicalHostName());
-       oscaly.isReachable(10000); // 10 seconds timeout
-        
 
-     
-}
+        try {
+            URL url = new URL("https://ocsaly.com");
+            URLConnection myUrlConnection = url.openConnection();
+            BufferedReader br = new BufferedReader(new InputStreamReader(myUrlConnection.getInputStream()));
+            String myLine;
+            while ((myLine = br.readLine()) != null) {
+                System.out.println(myLine);
+            }
+            br.close();
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
 }
