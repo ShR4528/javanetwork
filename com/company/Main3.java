@@ -1,4 +1,4 @@
-
+package com.company;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
