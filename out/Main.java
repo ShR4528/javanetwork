@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLOutput;
+
 import java.util.Scanner;
 
 public class Main {
@@ -12,7 +12,7 @@ public class Main {
     private static final int PORT = 1234;
    public static void main(String[] args){
 
-    System.out.println("OPEning port " +  PORT + "\n");
+    System.out.println("OPENING PORT " +  PORT + "\n");
     try {
         serverSocket = new ServerSocket(PORT); // STEP 1
     } catch (IOException ioException) {
@@ -36,9 +36,9 @@ public class Main {
         int numMessages = 0;
         String message = input.nextLine();
         while(!message.equals("CLoSES")) {
-            System.out.println("MESSAGE RECEIVED");
+            System.out.println("MESSAGE RECEIVED : " + message);
             numMessages++;
-            output.println("message num " +  numMessages + " : " + message);
+            output.println("MESSAGE NUM " +  numMessages + " : " + message);
             message = input.nextLine();
            
         }
@@ -49,7 +49,7 @@ public class Main {
         }
         finally {
             try {
-                System.out.println("\n* closing connection .....");
+                System.out.println("\n* closing connection.....");
                 link.close();
             } catch (IOException e){
                 System.out.println("unable to disconnect  : "  + e.getMessage());

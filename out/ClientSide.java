@@ -23,7 +23,7 @@ public class ClientSide {
         accessServer();
     }
     private static void accessServer(){
-        Socket link = null;
+        Socket link = new Socket();
         try {
             link = new Socket(host, PORT);
             Scanner input = new Scanner(link.getInputStream());
@@ -48,7 +48,7 @@ public class ClientSide {
             } catch (IOException ioException){
                 System.out.println("unable to disconect error : " + ioException.getMessage());
                 System.exit(1);
-                
+
 
             }
         }
