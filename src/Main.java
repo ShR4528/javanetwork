@@ -8,13 +8,16 @@ import java.net.SocketException;
 
 
 public class Main {
-
+     // Port number on which the server will listen for incoming packets
     private static final int PORT = 2082;
 
+     // DatagramSocket for sending and receiving UDP packets
     private static DatagramSocket datagramSocket;
 
-    private static DatagramPacket inPacket, ouPacket;
+    // DatagramPackets for receiving and sending data
+    private static DatagramPacket inPacket, outPacket;
 
+     // Buffer for storing incoming data
     private static byte[] buffer;
 
     public static void main(String[] args) throws IOException {
@@ -22,6 +25,7 @@ public class Main {
         System.out.println("PORT OPEN ... \n");
 
         try{
+            // Create a new DatagramSocket bound to the specified port
             datagramSocket = new DatagramSocket(PORT);
 
         } catch(SocketException socketException) {
@@ -30,6 +34,7 @@ public class Main {
             System.out.println(socketException.getMessage());
             System.exit(1);
         }
+          // Start handling client requests
         handleClient();
 
     }
@@ -41,20 +46,33 @@ public class Main {
             InetAddress clientAddress = null;
             int clientPort;
             do {
+                // Create a new buffer for incoming data
                 buffer = new byte[256];
+
+                // Create a new DatagramPacket for receiving data
                 inPacket = new DatagramPacket(buffer, buffer.length);
+
+                // Receive data from the client
                 datagramSocket.receive(inPacket);
 
+
+                // Get the client's address and port
                 clientAddress = inPacket.getAddress();
                 clientPort = inPacket.getPort();
 
+                 // Convert the received data to a string
                 messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
                 System.out.println("MESSAGE RECEIVED : " + messageIn);
                 numMessages++;
+
+                // Prepare the response message
                 messageOut = "MESSAGE NUM " + numMessages + " : " + messageIn;
 
-                ouPacket = new DatagramPacket(messageOut.getBytes(),messageOut.length(), clientAddress, clientPort);
-                datagramSocket.send(ouPacket);
+                 // Create a new DatagramPacket for sending data back to the client
+                outPacket = new DatagramPacket(messageOut.getBytes(),messageOut.length(), clientAddress, clientPort);
+
+                // Send the response back to the client
+                datagramSocket.send(outPacket);
             } while (true);
 
 
@@ -63,6 +81,8 @@ public class Main {
         } 
         finally {
             System.out.println("\n CLOSING THE CONNECTION");
+
+            // Close the DatagramSocket
             datagramSocket.close();
         }
     }
