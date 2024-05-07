@@ -8,59 +8,58 @@ import java.util.Scanner;
 public class Main {
 
     private static ServerSocket serverSocket;
+
     private static final int PORT = 1234;
+   public static void main(String[] args){
 
-
-    public static void main(String[] args) {
-
-        System.out.println("OPENING PORT : " + PORT + "\n");
-        try {
-            serverSocket = new ServerSocket(PORT); // STEP 1
-        } catch (IOException ioException) {
-            System.out.println("UNABLE TO ATTACH TO PORT ! EXCEPTION : " + ioException.getMessage());
-            System.exit(1);
-        }
-        do {
-            handleClient();
-        } while (true);
-
+    System.out.println("OPEning port " +  PORT + "\n");
+    try {
+        serverSocket = new ServerSocket(PORT); // STEP 1
+    } catch (IOException ioException) {
+        System.out.println("UNABLE TO ATTACH TO PORT !Exceptiom :" + ioException.getMessage());
+        System.exit(1);
     }
-
-    private static void handleClient() {
-        Socket link = null;                 //STEP 2
-        try {
-            link = serverSocket.accept();   //STEP 2
-
-            Scanner input = new Scanner(link.getInputStream()); //STEP 3
-            PrintWriter output = new PrintWriter(link.getOutputStream(), true);  //STEP 3
-
-            int numMessages = 0;
-            String message = input.nextLine(); //STEP 4
-            while (!message.equals("***CLOSES***")) {
-                System.out.println("MESSAGE RECEIVED.");
-                numMessages++;
-                output.println("MESSAGE NUM  " + numMessages + " : " + message); //STEP 4
-                message = input.nextLine();
-            }
-            output.println(numMessages + " messages received"); //STEP 4
+    do{
+        handleClient();
+    } while(true);
+}
 
 
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-            System.out.println(ioException.getMessage());
+    private static void handleClient(){
+    Socket link = null;
+    try {
+        link = serverSocket.accept();
 
+        Scanner input = new Scanner(link.getInputStream());
+        PrintWriter output  =  new PrintWriter(link.getOutputStream(),true);
+
+        int numMessages = 0;
+        String message = input.nextLine();
+        while(!message.equals("CLoSES")) {
+            System.out.println("MESSAGE RECEIVED");
+            numMessages++;
+            output.println("message num " +  numMessages + " : " + message);
+            message = input.nextLine();
+           
+        }
+        output.println(numMessages +  " messages received ");
+    } catch (IOException ioException) {
+        ioException.printStackTrace();
+        System.out.println(ioException.getMessage());
         }
         finally {
-
             try {
-                System.out.println("\n* CLOSING CONNECTION . . . *");
-                link.close(); //STEP 5
-
-            } catch (IOException e) {
-                System.out.println("UNABLE TO DISCONNECT ! : " + e.getMessage());
+                System.out.println("\n* closing connection .....");
+                link.close();
+            } catch (IOException e){
+                System.out.println("unable to disconnect  : "  + e.getMessage());
                 System.exit(1);
+            
             }
         }
-    }
+    
+   
+}
+   
 
 }
